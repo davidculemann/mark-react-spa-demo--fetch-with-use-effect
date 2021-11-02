@@ -1,25 +1,22 @@
 import { useEffect, useState } from "react";
 
-interface Joke {
-  id: number;
-  type: string;
-  setup: string;
-  punchline: string;
+interface Quote {
+  quote: string;
 }
 
 function App() {
-  const [joke, setJoke] = useState<Joke>();
+  const [quote, setQuote] = useState<Quote>();
 
   useEffect(() => {
-    const fetchJoke = async () => {
+    const fetchQuote = async () => {
       const response = await fetch(
-        "https://jokestemp.neillbogie.repl.co/jokes/general/random"
+        "https://api.kanye.rest"
       );
-      const jsonBody: Joke[] = await response.json();
-      setJoke(jsonBody[0]);
+      const jsonBody: Quote = await response.json();
+      setQuote(jsonBody);
     };
 
-    fetchJoke();
+    fetchQuote();
   }, []);
 
   // useEffect(() => {
@@ -30,8 +27,8 @@ function App() {
 
   return (
     <>
-      <h1>Joke app</h1>
-      {joke && (
+      <h1>Kanye quote app</h1>
+      {quote && (
         // This is a conditional rendering strategy
         //  using 'short-circuiting': if the left-hand
         //  side of an && is false, then JavaScript
@@ -40,14 +37,10 @@ function App() {
         //  regardless)
         //
         // Exploiting that feature to conditional render JSX!
-        <>
-          <p>
-            <b>{joke.setup}</b>
-          </p>
-          <p>
-            <i>{joke.punchline}</i>
-          </p>
-        </>
+
+        <p>
+          <b>{quote.quote}</b>
+        </p>
       )}
     </>
   );
